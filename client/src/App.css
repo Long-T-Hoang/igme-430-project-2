@@ -1,18 +1,241 @@
-body { background: #f7f7f7; }
-.app { margin: 3em; width: 24em; }
-
-input,
-button {
-  padding: 0.5em 0.75em;
-  margin-right: 1em;
-  border-radius: 4px;
-  outline: none;
-  border: 1px solid transparent;
-  font: inherit;
+body{
+  margin: 0px;
+  background-color: rgb(148, 218, 212);
 }
 
-input       { border-color: #888; }
-input:focus { border-color: #17f; }
+img{
+  display: inline;
+}
 
-button        { background: #17f; color: #fff; }
-button:active { background: #15d; }
+/* blurred background of header logo */
+#logo::before{
+  background-image: url("./media/test-logo.png");
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: -1;
+  width: 100%;
+  height: 20vh;
+  filter: blur(3px);
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+#logo{
+  height: 20vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1{
+  font-size: 75px;
+  margin: 0;
+  font-family: 'Audiowide', cursive;
+  background: -webkit-linear-gradient(rgb(170, 5, 5) 25px, rgb(238, 255, 0) 35px, rgb(0, 119, 255) 45px);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* header */
+header{
+  display: flex;
+  justify-content: space-around;
+  align-items: stretch;
+  border: 5px solid rgb(206, 18, 18);
+}
+
+.header-link{
+  text-align: center;
+  align-items: center;
+  flex-grow: 1;
+  width: auto;
+  padding: 5px;
+  text-decoration: none;
+  background-color: rgb(0, 119, 255);
+  color: white;
+  font-family: 'Audiowide', cursive;
+}
+
+/* main */
+main{
+  margin: 15px;
+  font-family: 'Quattrocento', serif;
+}
+
+main h3{
+  text-align: center;
+}
+
+#content{
+  text-align: center;
+  width: 100%;
+}
+
+#content *{
+  color: rgb(77, 0, 128);
+}
+
+#main-divider{
+  border: 1px solid rgb(206, 18, 18);
+}
+
+.content-divider{
+  border: 1px solid rgb(0, 119, 255);
+}
+
+.kit-result a{
+  text-align: center;
+  width: 100px;
+  display: block;
+  margin: 10px 0px;
+  margin-bottom: 20px;
+  text-decoration: none;
+}
+
+.kit a{
+  text-decoration: none;
+}
+
+.kit img{
+  max-width: 75%;
+}
+/* form */
+#searchForm{
+  height: 15vh;
+  width: 50vw;
+  margin: 0 auto;
+}
+
+#uploadForm{
+  height: 20vh;
+  width: 50vw;
+  margin: 0 auto;
+}
+
+form p{
+  margin: 0;
+  align-self: center;
+  color: rgb(77, 0, 128);
+}
+
+main form{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.form-div{
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.form-div label{
+  flex-grow: 0.25;
+}
+
+.form-div input{
+  flex-grow: 4;
+}
+
+.detail-page, .btn{
+  font-weight: bold;
+  font-size: 100%;
+  align-self: center;
+  margin: 5px;
+  font-family: 'Quattrocento', serif;
+  background-color: rgb(80, 154, 238);
+  color: white;
+  padding: 5px 7px;
+  border-radius: 3px;
+  border: 2px solid rgb(206, 18, 18);
+}
+
+/* kit detail page specifics */
+#kits h2{
+  margin-bottom: 5px;
+}
+
+#comment-upload form{
+  text-align: left;
+  display: flex;
+  width: 100%;
+  height: 100px;
+  justify-content: space-evenly;
+}
+
+#comment-upload p{
+  margin: 0;
+  color: rgb(77, 0, 128);
+}
+
+#comment-field{
+  max-width: 90%;
+}
+
+.comment:first-child{
+  border-top: 2px solid rgb(0, 119, 255);
+}
+
+.comment{
+  padding: 5px;
+  background-color: rgb(215, 228, 167);
+  height: fit-content;
+  border-bottom: 2px solid rgb(0, 119, 255);
+}
+
+.comment-date{
+  margin-top: 0px;
+  margin-left: 17px;
+  margin-bottom: 1px;
+  font-size: 80%;
+  color: rgb(75, 69, 69);
+}
+
+.comment-text{
+  margin: 5px;
+}
+
+/* links */
+/* header links */
+.header-link:hover{
+  color: rgb(238, 255, 0);
+  background-color: rgb(118, 118, 247);
+}
+
+.header-link:active{
+  color: rgb(101, 240, 9);
+  background-color: rgb(134, 134, 247);
+}
+
+/* detail links */
+.detail-page:visited{
+  color: rgb(248, 147, 147);
+  background-color: rgb(144, 27, 155);
+  border-color: rgb(255, 0, 0);
+}
+
+.detail-page:hover{
+  color: rgb(238, 255, 0);
+  background-color: rgb(118, 118, 247);
+}
+
+.detail-page:active{
+  color: rgb(101, 240, 9);
+  background-color: rgb(134, 134, 247);
+}
+
+/* buttons */
+.btn:hover{
+  color: rgb(238, 255, 0);
+}
+
+.btn:active{
+  color: rgb(101, 240, 9);
+  background-color: rgb(134, 134, 247);
+}
