@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "pretest": "eslint ./src --fix",
+    "pretest": "eslint --fix",
     "test": "echo \"tests complete\"",
     "start": "node ./server.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
