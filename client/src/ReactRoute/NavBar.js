@@ -6,6 +6,7 @@ function NavBar() {
         <div id="logo">
           <h1>GunPla Collection</h1>
         </div>
+        
         <header>
             <Link to="/" className="header-link">Main</Link>
             <Link to="/kits" className="header-link">Kits</Link>
