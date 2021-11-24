@@ -15,11 +15,11 @@ const redis = require('redis');
 const csrf = require('csurf');
 
 // MongooseDB initialization and connect
-//const dbURL = process.env.MONGODB_URI || 'mongodb://localhost/GundamCollection';
+const dbURL = process.env.MONGODB_URI || 'mongodb://localhost/GundamCollection';
 
 // otherwise use this
 // delete before upload to GitHub
-const dbURL = 'mongodb+srv://lth1092:Vrael13071527@cluster0.ywnt7.mongodb.net/GundamCollection?retryWrites=true&w=majority';
+//const dbURL = 'mongodb+srv://lth1092:Vrael13071527@cluster0.ywnt7.mongodb.net/GundamCollection?retryWrites=true&w=majority';
 
 // attempt connection to MongoDB
 mongoose.connect(dbURL, (err) => {
