@@ -15,11 +15,11 @@ const redis = require('redis');
 const csrf = require('csurf');
 
 // MongooseDB initialization and connect
-const dbURL = process.env.MONGODB_URI || 'mongodb://localhost/GundamCollection';
+const dbURL = process.env.MONGODB_URI || 'mongodb+srv://lth1092:Vrael13071527@cluster0.ywnt7.mongodb.net/GundamCollection?retryWrites=true&w=majority';
 
 // otherwise use this
 // delete before upload to GitHub
-//const dbURL = 'mongodb+srv://lth1092:Vrael13071527@cluster0.ywnt7.mongodb.net/GundamCollection?retryWrites=true&w=majority';
+//const dbURL = ;
 
 // attempt connection to MongoDB
 mongoose.connect(dbURL, (err) => {
@@ -69,14 +69,16 @@ app.use(session({
 }));
 app.disable('x-powered-by');
 app.use(cookieParser());
-/*app.use(csrf());
+
+app.use(csrf());
 app.use((err, req, res, next) => {
+  console.log(err.code);
   if (err.code !== 'EBADCSRFTOKEN') return next(err);
 
   console.log('Missing CSRF token');
   return false;
 });
-*/
+
 router(app);
 
 app.listen(port, () => {

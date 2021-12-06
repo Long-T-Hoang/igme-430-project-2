@@ -11,6 +11,8 @@ import Admin from './ReactRoute/Admin';
 import KitList from './ReactRoute/KitList';
 import Kit from './ReactRoute/Kit'
 import Upload from './ReactRoute/Upload';
+import Login from './ReactRoute/Login';
+import AccountPage from './ReactRoute/AccountPage';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -21,6 +23,8 @@ ReactDOM.render(
         <Route path="/kit/:id" element={<Kit />}></Route>
         <Route path="/upload" element={<Upload />}></Route>
         <Route path="/admin" element={<Admin />}></Route>
+        <Route path="/login" element={<Login />}></Route>
+        <Route path="/account" element={<AccountPage />}></Route>
       </Routes>
     </BrowserRouter>
   </React.StrictMode>,

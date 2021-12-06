@@ -12,6 +12,8 @@ function NavBar() {
             <Link to="/kits" className="header-link">Kits</Link>
             <Link to="/upload" className="header-link">Upload</Link>
             <Link to="/admin" className="header-link">Admin</Link>
+            <Link to="/account" className="header-link">Account</Link>
+            <Link to="/login" className="header-link">Login</Link>
         </header>
       </div>
     );

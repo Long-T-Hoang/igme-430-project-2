@@ -14,6 +14,8 @@ const addComment = (req, res) => {
 
     const commentPromise = newComment.save();
 
+    commentPromise.then(() => res.json({ message: "comment added successfully" }));
+
     commentPromise.catch((err) => {
         console.log(err);
         if (err.code === 11000) {

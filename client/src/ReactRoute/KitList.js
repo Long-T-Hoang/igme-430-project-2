@@ -18,7 +18,6 @@ function KitList (){
             return response.json();
         })
         .then(data => {
-            console.log(data.kits);
             const List = data.kits.map((kit) => 
                 <div key={kit._id} className="kit-result">
                     <p>Name: {kit.name}</p>
