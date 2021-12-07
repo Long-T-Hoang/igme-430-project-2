@@ -24,80 +24,25 @@ const getAccountKits = (req, res) => {
 // POST request
 const addAccountKit = (req, res) => {
     const data = req.body;
-    var kit;
-    
-    Models.AccountKit.AccountKitModel.findByAccountAndID(req.session.account._id, data.kitID, (err, doc) => {
+
+    return Models.AccountKit.AccountKitModel.findAndUpdate(req.session.account._id, data.kitID, data.quantity, (err, doc) => {
         if (err) {
           console.log(err);
           return res.status(400).json({ error: 'An error occurred' });
         }
-        kit = doc;
     });
-
-    const kitData = {
-        accountID: req.session.account._id,
-        quantity: kit ? kit.quantity + data.quantity : data.quantity,
-        kitID: data.kitID,
-    };
-
-    const newKit = new Models.AccountKit.AccountKitModel(kitData);
-
-    const kitPromise = newKit.save()
-    .then(() => res.json({ message: "kit added successfully" }))
-    .catch((err) => {
-        console.log(err);
-        
-        return res.status(400).json({ error: 'An error occurred' });
-    });
-    
-    return kitPromise;
 }
 
 // UPDATE request
 const updateAccountKit = (req, res) => {
     const data = req.body;
-    var kit;
 
-    Models.AccountKit.AccountKitModel.findByAccountAndID(req.session.account._id, data.kitID, (err, doc) => {
+    return Models.AccountKit.AccountKitModel.findAndReplace(req.session.account._id, data.kitID, data.quantity, (err, doc) => {
         if (err) {
           console.log(err);
           return res.status(400).json({ error: 'An error occurred' });
         }
-        kit = doc;
     });
-
-    // delete kit from account if the new quantity is 0
-    if(data.quantity === 0)
-    {
-        return Models.AccountKit.AccountKitModel.removeByAccountAndID(req.session.account._id, data.kitID, (err, doc) => {
-            if (err) {
-              console.log(err);
-              return res.status(400).json({ error: 'An error occurred' });
-            }
-            
-            return res.status(201).json({ message: 'Kit removed from account successfully' });
-        });
-    }
-    // otherwise update it
-    else
-    {
-        const kitData = {
-            accountID: data.accountID,
-            quantity: data.quantity,
-            kitID: data.kitID,
-        };
-
-        const newKit = new Models.AccountKit.AccountKitModel(kitData);
-
-        const kitPromise = newKit.save()
-        .catch((err) => {
-            console.log(err);
-            
-            return res.status(400).json({ error: 'An error occurred' });
-        });
-        
-        return kitPromise;
-    }
 };
 
 module.exports = {

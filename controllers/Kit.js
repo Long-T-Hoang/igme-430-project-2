@@ -40,12 +40,25 @@ const getKit = (req, res) => {
   
 // POST requests
 const addKit = (req, res) => {
-    const kitData = req.body;
-    
-    if (!kitData.name || !kitData.releaseYear || !kitData.msrp) {
+    const data = req.body;
+
+    /*
+    console.log(req.file);
+    console.log(req.body);
+    */
+   
+    if (!data.name || !data.releaseYear || !data.msrp) {
       return res.status(400).json({ error: 'name, releaseYear and msrp are required' });
     }
     
+    // kit data to save to mongoDB
+    const kitData = {
+      name: data.name,
+      releaseYear: data.releaseYear,
+      msrp: data.msrp,
+      image: req.file.path,
+    };
+
     const newKit = new Models.Kit.KitModel(kitData);
 
     const kitPromise = newKit.save();

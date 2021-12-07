@@ -8,7 +8,7 @@ const loginPage = (req, res) => {
 
 const logout = (req, res) => {
   req.session.destroy();
-  res.redirect('/');
+  return res.json({ redirect: '/' });
 };
 
 const login = (request, response) => {
@@ -28,8 +28,7 @@ const login = (request, response) => {
     }
 
     req.session.account = Account.AccountModel.toAPI(account);
-
-    return res.status(200).json({ redirect: '/account' });
+    return res.status(200).json({ redirect: '/account', username: username });
   });
 };
 

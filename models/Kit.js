@@ -23,9 +23,9 @@ const KitSchema = new mongoose.Schema({
       min: 0,
     },
   
-    imageURL: {
+    image: {
       type: String,
-      trim: true,
+      trim: true
     },
 });
 
@@ -42,11 +42,11 @@ KitSchema.statics.findByNameAndYear = (searchData , callback) => {
     if(searchData.name) search.name = searchData.name;
     if(searchData.releaseYear) search.releaseYear = searchData.releaseYear;
 
-    return KitModel.find(search).select('name releaseYear msrp imageURL').lean().exec(callback);
+    return KitModel.find(search).select('name releaseYear msrp image').lean().exec(callback);
 };
 
 KitSchema.statics.findAll = (callback) => {
-    return KitModel.find().select('name releaseYear msrp imageURL').lean().exec(callback);
+    return KitModel.find().select('name releaseYear msrp image').lean().exec(callback);
 }
 
 KitSchema.statics.findByID = (kitID , callback) => {
@@ -54,7 +54,7 @@ KitSchema.statics.findByID = (kitID , callback) => {
         _id: convertId(kitID),
     };
 
-    return KitModel.find(search).select('name releaseYear msrp imageURL').lean().exec(callback);
+    return KitModel.find(search).select('name releaseYear msrp image').lean().exec(callback);
 };
 
 KitSchema.statics.removeByID = (id, callback) => {

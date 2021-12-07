@@ -13,6 +13,7 @@ const RedisStore = require('connect-redis')(session);
 const url = require('url');
 const redis = require('redis');
 const csrf = require('csurf');
+const multer = require('multer');
 
 // MongooseDB initialization and connect
 const dbURL = process.env.MONGODB_URI || 'mongodb+srv://lth1092:Vrael13071527@cluster0.ywnt7.mongodb.net/GundamCollection?retryWrites=true&w=majority';
@@ -50,6 +51,7 @@ const redisClient = redis.createClient({
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client/build')));
+app.use('uploads', express.static('uploads'));
 app.use(compression());
 app.use(bodyParser.urlencoded({
   extended: true,

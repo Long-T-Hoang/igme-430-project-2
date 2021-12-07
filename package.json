@@ -7,6 +7,7 @@
     "pretest": "eslint --fix",
     "test": "echo \"tests complete\"",
     "start": "node ./server.js",
+    "nodemon": "nodemon --watch ./ ./server.js",
     "heroku-postbuild": "cd client && npm install && npm run build"
   },
   "keywords": [],
@@ -20,20 +21,23 @@
     "nodemon": "^2.0.12"
   },
   "dependencies": {
-    "espress": "0.0.0",
-    "express": "^4.17.1",
-    "react-router-dom": "^6.0.2",
-    "unirest": "^0.6.0",
     "body-parser": "^1.19.0",
     "compression": "^1.7.4",
     "connect-redis": "^6.0.0",
     "cookie-parser": "^1.4.5",
     "csurf": "^1.11.0",
+    "espress": "0.0.0",
+    "express": "^4.17.1",
+    "express-fileupload": "^1.2.1",
     "express-session": "^1.17.2",
     "helmet": "^4.6.0",
+    "lodash": "^4.17.21",
     "mongoose": "^6.0.12",
+    "multer": "^1.4.4",
+    "react-router-dom": "^6.0.2",
     "redis": "^3.1.2",
     "serve-favicon": "^2.5.0",
-    "underscore": "^1.13.1"
+    "underscore": "^1.13.1",
+    "unirest": "^0.6.0"
   }
 }

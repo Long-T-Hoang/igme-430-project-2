@@ -48,6 +48,32 @@ AccountKitSchema.statics.removeByAccountAndKit = (accountID, kitID, callback) =>
     return AccountKitModel.deleteOne(search).exec(callback);
 };
 
+AccountKitSchema.statics.findAndUpdate = (accountID, kitID, newQuantity, callback) => {
+    const search = {
+        accountID: accountID,
+        kitID: kitID,
+    };
+
+    const update = {
+        $inc: {'quantity': newQuantity}
+    };
+    
+    return AccountKitModel.updateOne(search, update).exec(callback);
+};
+
+AccountKitSchema.statics.findAndReplace = (accountID, kitID, newQuantity, callback) => {
+    const search = {
+        accountID: accountID,
+        kitID: kitID,
+    };
+
+    const update = {
+        quantity: newQuantity,
+    };
+    
+    return AccountKitModel.updateOne(search, update).exec(callback);
+};
+
 const AccountKitModel = mongoose.model('AcountKit', AccountKitSchema);
 
 module.exports.AccountKitSchema = AccountKitSchema;

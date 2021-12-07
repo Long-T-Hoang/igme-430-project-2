@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import ReactDOM from 'react-dom';
 import NavBar from "./NavBar";
 import helper from "../helper/helper.js";
@@ -40,6 +40,12 @@ const fetchKits = (csrf, callback) => {
         return response.json();
     })
     .then(data => {
+        // redirect
+        if(data.redirect)
+        {
+            window.location.href = data.redirect;
+        }
+
         const List = data.kits.map((kit) => {
             
             // getting the kit details

@@ -1,7 +1,7 @@
 import NavBar from "./NavBar";
 import ReactDOM from 'react-dom';
 import { useParams} from 'react-router-dom';
-import React, { useState } from "react";
+import React from "react";
 import helper from "../helper/helper.js";
 
 const fetchContent = (csrf, id) => {
@@ -43,7 +43,10 @@ const fetchKit = (csrf, id) => {
     .then(response => {
         return response.json();
     })
-    .then(data => loadKit(data.kits))
+    .then(data => {
+        console.log(data);
+        loadKit(data.kits);
+    })
     .catch((error) => {
         console.error('Error:', error);
     });
@@ -52,7 +55,7 @@ const fetchKit = (csrf, id) => {
     const loadKit = (kits) => {
         const Kit = kits.map((kit) => 
             <div className='kit' key={kit._id}>
-                <img src={kit.imageURL} alt={kit.name}></img>
+                <img src={"http://localhost:3001/" + kit.image} alt={kit.name}></img>
                 <p>Name: {kit.name}</p>
                 <p>Release Year: {kit.releaseYear}</p>
                 <p>MSRP: {kit.msrp}&#165;</p>

@@ -13,6 +13,7 @@ import Kit from './ReactRoute/Kit'
 import Upload from './ReactRoute/Upload';
 import Login from './ReactRoute/Login';
 import AccountPage from './ReactRoute/AccountPage';
+import Signup from './ReactRoute/Signup';
 
 ReactDOM.render(
   <React.StrictMode>
@@ -24,6 +25,7 @@ ReactDOM.render(
         <Route path="/upload" element={<Upload />}></Route>
         <Route path="/admin" element={<Admin />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/signup" element={<Signup />}></Route>
         <Route path="/account" element={<AccountPage />}></Route>
       </Routes>
     </BrowserRouter>
