@@ -45,18 +45,14 @@ const router = (app) => {
     app.get('/logout', mid.requiresLogin, controllers.Account.logout);
     app.get('/image', controllers.Image.findImage);
 
-    app.get('/uploads/:imageURL', (req, res) => {
-        console.log(path.join(__dirname, 'uploads', req.params.imageURL));
-
-        res.sendFile(path.join(__dirname, 'uploads', req.params.imageURL));
+    app.get('/uploads/:image', (req, res) => {
+        res.sendFile(path.join(__dirname, 'uploads', req.params.image));
     })
 
     // Return page
-    /*
-    app.get('/', (req, res) => {
+    app.get('*', (req, res) => {
         res.sendFile(path.join(__dirname+'/client/build/index.html'));
     });
-    */
 
     // POST request
     app.post('/addKit', mid.requiresSecure, upload.single('image'), controllers.Kit.addKit);

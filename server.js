@@ -53,25 +53,29 @@ const redisClient = redis.createClient({
 app.use(express.static(path.join(__dirname, 'client/build')));
 app.use('uploads', express.static('uploads'));
 app.use(compression());
+
 app.use(bodyParser.urlencoded({
   extended: true,
 }));
 app.use(bodyParser.json());
+
 app.use(session({
   key: 'sessionid',
   store: new RedisStore({
     client: redisClient,
   }),
-  secret: 'Domo Arigato',
+  secret: 'IT\'S A GUNDAMMMM',
   resave: true,
   saveUninitialized: true,
   cookie: {
     httpOnly: true,
   },
 }));
+
 app.disable('x-powered-by');
 app.use(cookieParser());
 
+// set up csrf
 app.use(csrf());
 app.use((err, req, res, next) => {
   console.log(err.code);
