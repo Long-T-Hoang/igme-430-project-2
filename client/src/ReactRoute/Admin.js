@@ -2,6 +2,10 @@ import NavBar from "./NavBar"
 import ReactDOM from 'react-dom';
 import React from "react";
 import helper from '../helper/helper.js';
+import ReactObserver from 'react-event-observer';
+import { useNavigate } from "react-router";
+
+var observer = ReactObserver();
 
 function Admin() {
     const fetchAllKits = (csrf) => {
@@ -13,18 +17,38 @@ function Admin() {
             return response.json();
         })
         .then(data => {
+            if(data.kits.length === 0)
+            {
+                ReactDOM.render(<div className="entry"><p>No kits in the database</p></div>, document.getElementById('kits'));
+                return;
+            }
+            
+            // render list out kits if it's not empty
             const List = data.kits.map((kit) => 
-                <div key={kit._id} className="kit-result">
-                    <p>Name: {kit.name}</p>
-                    <p>Release Year: {kit.releaseYear}</p>
-                    <a className="detail-page" href={`kit/${kit._id}`}>Details</a>
-                    <button className="remove-btn btn" type="button" data-id={kit._id} onClick={ event => addToAccount(event.target.dataset.id, csrf)}>Add kit to account</button>
-                    <button className="remove-btn btn" type="button" data-id={kit._id} onClick={ event => deleteKit(event.target.dataset.id, csrf)}>Remove kit</button>
-                    <hr className="content-divider" />
+                <div key={kit._id} className="entry box is-flex is-flex-direction-row is-justify-content-space-between">
+                    <div className="text">
+                        <p>Name: {kit.name}</p>
+
+                        <p>Release Year: {kit.releaseYear}</p>
+                    </div>
+
+                    <div className="field is-grouped">
+                        <div className="control">
+                            <a className="button is-link" href={`kit/${kit._id}`}>Details</a>
+                        </div>
+
+                        <div className="control">
+                            <button className="button is-primary" type="button" data-id={kit._id} onClick={ event => addToAccount(event.target.dataset.id, csrf)}>Add kit to account</button>
+                        </div>
+
+                        <div className="control">
+                            <button className="button is-primary" type="button" data-id={kit._id} onClick={ event => deleteKit(event.target.dataset.id, csrf)}>Remove kit</button>
+                        </div>
+                    </div>
                 </div>
             );
 
-            ReactDOM.render(<div>{List}</div>, document.getElementById('kits'));
+            ReactDOM.render(<div> {List} </div>, document.getElementById('kits'));
         })
         .catch((error) => {
             console.error('Error:', error);
@@ -39,7 +63,7 @@ function Admin() {
             kitID: kitID,
             quantity: 1,
         };
-
+        console.log(kitToAdd);
         fetch(url, {
             method: 'POST',
             mode: 'cors',
@@ -52,6 +76,7 @@ function Admin() {
             return response.json();
         })
         .then(data => {
+            if(data.redirect) observer.publish('redirect', data);
             console.log(data);
         })
         .catch((error) => {
@@ -61,7 +86,7 @@ function Admin() {
 
     // delete kit from database event
     const deleteKit = (kitID, csrf) => {
-        console.log(kitID);
+        console.log(csrf);
 
         fetch(`/deleteKit?id=${kitID}&_csrf=${csrf}`, {
             method: 'DELETE',
@@ -70,7 +95,7 @@ function Admin() {
         .then(response => {
             return response.json();
         })
-        .then(() => fetchAllKits())
+        .then(() => fetchAllKits(csrf))
         .catch((error) => {
             console.error('Error:', error);
         });
@@ -79,18 +104,26 @@ function Admin() {
     helper.getToken((data) => {
         fetchAllKits(data.csrfToken);
     });
-    
+
+    // creating observer event to redirect 
+    const navigate = useNavigate();
+    const listener = observer.subscribe('redirect', (data) => {
+        navigate(data.redirect);
+    });
+
     return (
-        <div className="admin">
+        <div className="content is-flex is-justify-content-space-between is-flex-direction-column">
             <NavBar/>
             
-            <main>
-                <h2>Admin page</h2>
+            <main className="background fill-page">
+                <h2 className="title">Admin page</h2>
+                
                 <p id="content"></p>
-                <hr/>
                 <div id="kits">
                 </div>
             </main>
+
+            <footer className="footer has-background-primary is-size-7 pb-1 pt-1">Made By Tuan Long Hoang</footer>  
         </div>
     );
 };

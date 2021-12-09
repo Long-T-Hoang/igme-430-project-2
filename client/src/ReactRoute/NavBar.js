@@ -5,8 +5,6 @@ import ReactObserver from 'react-event-observer';
 let observer = ReactObserver();
 
 function LoginSignupBar () {
-  const currentHref = window.location.href;
-
   const logout = () => {
     fetch("/logout", {
       method: 'GET',
@@ -14,7 +12,6 @@ function LoginSignupBar () {
     })
     .then(response => response.json())
     .then(data => {
-      console.log(data);
       observer.publish('redirect', data.redirect);
       sessionStorage.removeItem("username");
     })
@@ -27,18 +24,24 @@ function LoginSignupBar () {
   if(sessionStorage.getItem("username"))
   {
     return (
-      <nav id="login-signup">
-        <p>Welcome back! {sessionStorage.getItem("username")} <a onClick={logout}>Logout</a></p>
-      </nav>
+      <div className="navbar-end">
+        <div className="navbar-item">
+          <p>Welcome back! <span id="username">{sessionStorage.getItem("username")}</span> <a className="button is-danger is-small" onClick={logout}>Logout</a></p>
+        </div>
+      </div>
     );
   }
 
   // render this if the user is not logged in
   return (
-    <nav id="login-signup">
-      <Link to="/login" className="header-link">Login</Link>
-      <Link to="/signup" className="header-link">Signup</Link>
-    </nav>
+    <div className="navbar-end">
+      <div className="navbar-item">
+        <div className="buttons">
+          <Link to="/login" className="button is-danger">Login</Link>
+          <Link to="/signup" className="button is-light">Signup</Link>
+        </div>
+      </div>
+    </div>
 );
 }
 
@@ -50,18 +53,25 @@ function NavBar() {
 
   return (
       <div className="nav-bar">
-        <div id="logo">
-          <h1>GunPla Collection</h1>
-        </div>
-        
-        <LoginSignupBar />
 
-        <nav>
-            <Link to="/" className="header-link">Main</Link>
-            <Link to="/kits" className="header-link">Kits</Link>
-            <Link to="/upload" className="header-link">Upload</Link>
-            <Link to="/admin" className="header-link">Admin</Link>
-            <Link to="/account" className="header-link">Account</Link>
+        <nav className="navbar is-link" role="navigation" aria-label="main navigation">
+          <div className="navbar-brand">
+            <a className="navbar-item" id="nav-title" href="/">
+              Gunpla Collection
+            </a>
+
+          </div>
+
+          <div className="navbar-menu">
+            <div className="navbar-start">
+              <Link className="navbar-item" to="/kits">Kits</Link>
+              <Link className="navbar-item" to="/upload">Upload</Link>
+              <Link className="navbar-item" to="/admin">Admin</Link>
+              <Link className="navbar-item" to="/account">Account</Link>
+            </div>
+
+            <LoginSignupBar />
+          </div>
         </nav>
       </div>
     );

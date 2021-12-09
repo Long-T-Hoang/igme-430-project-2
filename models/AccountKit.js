@@ -41,10 +41,11 @@ AccountKitSchema.statics.findByAccountAndID = (accountID, kitID, callback) => {
 
 AccountKitSchema.statics.removeByAccountAndKit = (accountID, kitID, callback) => {
     const search = {
-        accountID: accountID,
         kitID: kitID,
     };
-  
+    
+    if(accountID) search.accountID = accountID;
+    console.log(search);
     return AccountKitModel.deleteOne(search).exec(callback);
 };
 
@@ -58,7 +59,7 @@ AccountKitSchema.statics.findAndUpdate = (accountID, kitID, newQuantity, callbac
         $inc: {'quantity': newQuantity}
     };
     
-    return AccountKitModel.updateOne(search, update).exec(callback);
+    return AccountKitModel.updateOne(search, update, { upsert: true }).exec(callback);
 };
 
 AccountKitSchema.statics.findAndReplace = (accountID, kitID, newQuantity, callback) => {

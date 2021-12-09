@@ -61,7 +61,7 @@ const signup = (request, response) => {
 
     savePromise.then(() => {
       req.session.account = Account.AccountModel.toAPI(newAccount);
-      res.json({ redirect: '/account' });
+      res.json({ redirect: '/account', username: req.session.account.username });
     });
 
     savePromise.catch((err) => {
@@ -75,6 +75,16 @@ const signup = (request, response) => {
     });
   });
 };
+
+const checkLoggedIn = (req, res) => {
+  if(req.session.account) {
+    return res.json({ loggedIn: true, username: req.session.account.username });
+  }
+  else
+  {
+    return res.json({ loggedIn: false });
+  }
+}
 
 const getToken = (request, response) => {
   const req = request;
@@ -93,4 +103,5 @@ module.exports = {
   logout,
   signup,
   getToken,
+  checkLoggedIn,
 };

@@ -25,8 +25,36 @@ const getKitDetail = (csrf, kitID, callback) => {
     });
 };
 
+const updateAccountKit = (event, csrf, kitID) => {
+    event.preventDefault();
+
+    const newData = {
+        kitID: kitID,
+        quantity: event.target.querySelector('input[type="number"]').value,
+    }
+    console.log(newData);
+    fetch(`/updateAccountKit?_csrf=${csrf}`, {
+        method: 'PUT',
+        mode: 'cors',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newData),
+    })
+    .then(response => {
+        return response.json()
+    })
+    .then(json => {
+        console.log(json);
+        helper.getToken((data) => ReactDOM.render(<AccountKits csrf={data.csrfToken} />, document.querySelector("#content")));
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+    });
+};
+
 // fetch all kits in the account
-const fetchKits = (csrf, callback) => {
+const fetchKits = (csrf) => {
     const url = `/getAccountKits?_csrf=${csrf}`;
 
     fetch(url, {
@@ -45,11 +73,17 @@ const fetchKits = (csrf, callback) => {
         {
             window.location.href = data.redirect;
         }
+        
+        if(data.kits.length === 0)
+        {
+            return ReactDOM.render(<div className="entry"><p>No kits added to account.</p></div>, document.querySelector("#accountKitList"));
+        }
 
         const List = data.kits.map((kit) => {
             
             // getting the kit details
             getKitDetail(csrf, kit.kitID, (data) => {
+                console.log(data);
                 ReactDOM.render(
                     <div>
                         <p>Name: {data.kits[0].name}</p>
@@ -60,17 +94,31 @@ const fetchKits = (csrf, callback) => {
             });
 
             return (
-                <div key={kit._id} className="kit-result">
-                    <div className="kitDetail" value={kit.kitID}>
+                <div key={kit._id} className="entry box field is-flex is-justify-content-space-between is-flex-direction-row is-align-content-baseline">
+                    <div>
+                        <div className="kitDetail" key={kit.kitID} value={kit.kitID}>
+                        </div>
+                        <p>Quantity: {kit.quantity}</p>
                     </div>
-                    <p>Quantity: {kit.quantity}</p>
-                    <a className="detail-page" href={`kit/${kit.kitID}`}>Details</a>
-                    <hr className="content-divider" />
+
+                    <form className="is-flex is-flex-direction-column is-align-content-stretch is-justify-content-space-between"
+                    onSubmit={(event) => { updateAccountKit(event, csrf, kit.kitID) }}>
+                        <div className="control">
+                            <label>New quantity: </label>
+                            <input className="input" type="number" min="0" placeholder="1" />
+                        </div>
+
+                        <div className="control">
+                            <input className="button is-primary" type="submit" value="Update"/>
+                        </div>
+                    </form>
+
+                    <a className="button is-link" href={`kit/${kit.kitID}`}>Details</a>
                 </div>
             );
         });
 
-        callback(List);
+        return ReactDOM.render(<div>{List}</div>, document.querySelector("#accountKitList"));
     })
     .catch((error) => {
         console.error('Error:', error);
@@ -79,11 +127,7 @@ const fetchKits = (csrf, callback) => {
 
 // wrapper for account's kit list
 function AccountKits(props) {
-    fetchKits(
-        props.csrf, 
-        (List) => {
-            ReactDOM.render(<div>{List}</div>, document.querySelector("#accountKitList"));
-        });
+    fetchKits(props.csrf);
 
     return (
         <div id="accountKit">
@@ -96,14 +140,20 @@ function AccountKits(props) {
 };
 
 function AccountPage() {
-    helper.getToken((data) => ReactDOM.render(<AccountKits csrf={data.csrfToken} />, document.querySelector("main")));
+    helper.getToken((data) => ReactDOM.render(<AccountKits csrf={data.csrfToken} />, document.querySelector("#content")));
 
     return (
-        <div className="accountPage">
+        <div className="content is-flex is-justify-content-space-between is-flex-direction-column">
             <NavBar/>
 
-            <main>
+            <main className="background fill-page">
+                <h2 className="title">Account</h2>
+
+                <div id="content"></div>
+
             </main>
+
+            <footer className="footer has-background-primary is-size-7 pb-1 pt-1">Made By Tuan Long Hoang</footer>  
         </div>
     );
 };

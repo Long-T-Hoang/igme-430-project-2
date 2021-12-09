@@ -23,6 +23,11 @@ const KitSchema = new mongoose.Schema({
       min: 0,
     },
   
+    grade: {
+      type: String,
+      required: true,
+    },
+
     image: {
       type: String,
       trim: true
@@ -41,12 +46,18 @@ KitSchema.statics.findByNameAndYear = (searchData , callback) => {
 
     if(searchData.name) search.name = searchData.name;
     if(searchData.releaseYear) search.releaseYear = searchData.releaseYear;
+    if(searchData.grade) search.grade = searchData.grade;
 
-    return KitModel.find(search).select('name releaseYear msrp image').lean().exec(callback);
+    search.msrp = {
+      $gte: searchData.minPrice,
+      $lte: searchData.maxPrice,
+    };
+
+    return KitModel.find(search).select('name releaseYear msrp grade image').lean().exec(callback);
 };
 
 KitSchema.statics.findAll = (callback) => {
-    return KitModel.find().select('name releaseYear msrp image').lean().exec(callback);
+    return KitModel.find().select('name releaseYear msrp grade image').lean().exec(callback);
 }
 
 KitSchema.statics.findByID = (kitID , callback) => {
@@ -54,7 +65,7 @@ KitSchema.statics.findByID = (kitID , callback) => {
         _id: convertId(kitID),
     };
 
-    return KitModel.find(search).select('name releaseYear msrp image').lean().exec(callback);
+    return KitModel.find(search).select('name releaseYear msrp grade image').lean().exec(callback);
 };
 
 KitSchema.statics.removeByID = (id, callback) => {

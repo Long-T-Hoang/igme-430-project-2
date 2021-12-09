@@ -43,7 +43,7 @@ const router = (app) => {
     app.get('/getToken', mid.requiresSecure, controllers.Account.getToken);
     app.get('/getAccountKits', mid.requiresLogin, controllers.AccountKit.getAccountKits);
     app.get('/logout', mid.requiresLogin, controllers.Account.logout);
-    app.get('/image', controllers.Image.findImage);
+    app.get('/isLoggedIn', controllers.Account.checkLoggedIn);
 
     app.get('/uploads/:image', (req, res) => {
         res.sendFile(path.join(__dirname, 'uploads', req.params.image));
@@ -59,7 +59,7 @@ const router = (app) => {
     app.post('/postComment', mid.requiresSecure, controllers.Comment.addComment);
     app.post('/login', mid.requiresSecure, mid.requiresLogout, controllers.Account.login);
     app.post('/signup', mid.requiresSecure, mid.requiresLogout, controllers.Account.signup);
-    app.post('/addAccountKit', controllers.AccountKit.addAccountKit);
+    app.post('/addAccountKit', mid.requiresLogin, controllers.AccountKit.addAccountKit);
 
     // DELETE request
     app.delete('/deleteKit', mid.requiresSecure, controllers.Kit.deleteKit);

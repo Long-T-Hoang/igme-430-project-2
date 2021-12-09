@@ -1,43 +1,15 @@
-body{
-  margin: 0px;
-  background-color: rgb(148, 218, 212);
+@import "https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css";
+
+.background{
+  background-color: rgb(155, 155, 226);
 }
 
 img{
-  display: inline;
-}
-
-/* blurred background of header logo */
-#logo::before{
-  background-image: url("./media/test-logo.png");
-  content: "";
   display: block;
-  position: absolute;
-  left: 0;
-  right: 0;
-  z-index: -1;
-  width: 100%;
-  height: 20vh;
-  filter: blur(3px);
-  background-position: center;
-  background-size: contain;
-  background-repeat: no-repeat;
 }
 
-#logo{
-  height: 20vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-h1{
-  font-size: 75px;
-  margin: 0;
-  font-family: 'Audiowide', cursive;
-  background: -webkit-linear-gradient(rgb(170, 5, 5) 25px, rgb(238, 255, 0) 35px, rgb(0, 119, 255) 45px);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.q{
+  float: left;
 }
 
 /* header */
@@ -45,9 +17,21 @@ nav{
   display: flex;
   justify-content: space-around;
   align-items: stretch;
-  border: 5px solid rgb(206, 18, 18);
+  border: 1px solid rgb(206, 18, 18);
 }
 
+#nav-title{
+  color: red;
+  font-size: 200%;
+  font-family: 'Audiowide', cursive;
+  font-weight: bold;
+  -webkit-text-stroke-width: 0.001px;
+  -webkit-text-stroke-color: rgb(231, 231, 167);
+}
+
+.navbar{
+  color: blue !important;
+}
 .header-link{
   text-align: center;
   align-items: center;
@@ -60,40 +44,46 @@ nav{
   font-family: 'Audiowide', cursive;
 }
 
+#username{
+  font-weight: bold;
+  color: yellow;
+}
+
 /* main */
 main{
-  margin: 15px;
   font-family: 'Quattrocento', serif;
 }
 
-main h3{
+main .title{
+  margin-top: 15px;
+}
+
+main> p, h2, h3{
   text-align: center;
 }
 
-#content{
-  text-align: center;
-  width: 100%;
+.fill-page{
+  min-height: 100vh;
 }
 
-#content *{
-  color: rgb(77, 0, 128);
+.content{
+  height: 100%;
 }
 
-#main-divider{
-  border: 1px solid rgb(206, 18, 18);
+.content p{
+  margin: 0 !important;
 }
 
-.content-divider{
-  border: 1px solid rgb(0, 119, 255);
+#kits-content, .app
+{
+  height: 60vh;
 }
 
-.kit-result a{
-  text-align: center;
-  width: 100px;
-  display: block;
-  margin: 10px 0px;
-  margin-bottom: 20px;
-  text-decoration: none;
+.entry{
+  margin: 20px;
+}
+.kit{
+  margin: 15px;
 }
 
 .kit a{
@@ -101,11 +91,32 @@ main h3{
 }
 
 .kit img{
-  max-width: 75%;
+  max-height: 100%;
+  max-width: 100%;
 }
+
+.image-field{
+  width: 75%;
+  border: 2px solid red;
+}
+
+.data-field{
+  width: 20%;
+}
+
 /* form */
+input[type="range"]
+{
+  margin-top: 5px;
+  width: 100%;  
+}
+
 #searchForm{
-  height: 15vh;
+  width: 50vw;
+  margin: 0 auto;
+}
+
+#loginForm, #signupForm{
   width: 50vw;
   margin: 0 auto;
 }
@@ -120,13 +131,6 @@ form p{
   margin: 0;
   align-self: center;
   color: rgb(77, 0, 128);
-}
-
-main form{
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
 }
 
 .form-div{
@@ -156,17 +160,22 @@ main form{
   border: 2px solid rgb(206, 18, 18);
 }
 
+.field:not(:last-child)
+{
+  margin-bottom: .25rem;
+}
+
 /* kit detail page specifics */
 #kits h2{
   margin-bottom: 5px;
 }
 
 #comment-upload form{
+  margin-left: 25px;
+  margin-bottom: 25px;
   text-align: left;
-  display: flex;
   width: 100%;
-  height: 100px;
-  justify-content: space-evenly;
+  height: 100%;
 }
 
 #comment-upload p{
@@ -175,30 +184,21 @@ main form{
 }
 
 #comment-field{
-  max-width: 90%;
-}
-
-.comment:first-child{
-  border-top: 2px solid rgb(0, 119, 255);
-}
-
-.comment{
-  padding: 5px;
-  background-color: rgb(215, 228, 167);
-  height: fit-content;
-  border-bottom: 2px solid rgb(0, 119, 255);
-}
-
-.comment-date{
-  margin-top: 0px;
-  margin-left: 17px;
-  margin-bottom: 1px;
-  font-size: 80%;
-  color: rgb(75, 69, 69);
+  max-width: 50% !important;
+  min-width: 50% !important;
+  margin-bottom: 10px;
+  max-height: 100px;
 }
 
 .comment-text{
-  margin: 5px;
+  font-size: 150%;
+}
+
+/* footer */
+.absolute-footer{
+  position: fixed;
+  bottom: 0;
+  width: 100vw;
 }
 
 /* links */

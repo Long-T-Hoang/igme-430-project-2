@@ -4,6 +4,7 @@ import NavBar from "./NavBar";
 import { useNavigate } from "react-router";
 import ReactObserver from 'react-event-observer';
 import helper from '../helper/helper.js';
+import '@fortawesome/fontawesome-free/css/all.min.css'
 
 var observer = ReactObserver();
 
@@ -48,19 +49,40 @@ function LoginForm(props) {
     return (
         <div className="login">
             <h3>Login</h3>
-            <form id="loginForm" onSubmit={(event) => handleLogin(event, props.csrf)}>
-                <div className="form-div">
+            <form  className="is-flex is-flex-direction-column is-align-content-stretch" id="loginForm" onSubmit={(event) => handleLogin(event, props.csrf)}>
+                <div className="field">
                     <label>Username: </label>
-                    <input id="usernameField" type="text" name="username" value={username} onChange={ event => setUsername(event.target.value) } />
+                    <div className="control has-icons-left has-icons-right">
+                        <input className="input is-primary" id="usernameField" type="text" name="username" placeholder="username" value={username} onChange={ event => setUsername(event.target.value) } />
+                        
+                        <span className="icon is-left">
+                            <i className="fas fa-user"></i>
+                        </span>
+
+                        <span className="icon is-right">
+                            <i className="fas fa-check"></i>
+                        </span>
+                    </div>
                 </div>
 
-                <div className="form-div">
+                <div className="field is-centered">
                     <label>Password:</label>
-                    <input id="paswordField" type="password" name="password" value={password} onChange={ event => setPassword(event.target.value) } />
+                    <div className="control is-center has-icons-left has-icons-right">
+                        <input className="input is-primary" id="paswordField" type="password" name="password" placeholder="password" value={password} onChange={ event => setPassword(event.target.value) } />
+                        
+                        <span className="icon is-left">
+                            <i className="fas fa-lock"></i>
+                        </span>
+                        
+                        <span className="icon is-right">
+                            <i className="fas fa-check"></i>
+                        </span>
+                    </div>
                 </div>
 
                 <p>Don't have an account? <a className="span-btn" href="/signup">Sign up here!</a></p>
-                <input className="btn" type="submit" value="Login" />
+
+                <input className="button is-primary" type="submit" value="Login" />
 
                 <div id="content"></div>
             </form>
@@ -76,16 +98,25 @@ function LoginPage() {
         navigate(data.redirect);
     });
 
+    helper.checkLoggedIn((data) => {
+        if(data.loggedIn)
+        {
+            observer.publish('redirect', { redirect: '/account', username: data.username });
+        }
+    });
+
     helper.getToken((data) => {
         ReactDOM.render(<LoginForm csrf={data.csrfToken} />, document.querySelector("main"))
     });
 
     return (
-        <div className="login">
-            <NavBar/>
+        <div className="content is-flex is-justify-content-space-between is-flex-direction-column">
+            <NavBar />
 
-            <main>
+            <main className="background fill-page">
             </main>
+
+            <footer className="footer has-background-primary is-size-7 pb-1 pt-1">Made By Tuan Long Hoang</footer>
         </div>
     );
 };

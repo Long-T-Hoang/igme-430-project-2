@@ -7,6 +7,9 @@ const getKits = (req, res) => {
 
     if(kitData.name === '') kitData.name = undefined;
     if(kitData.releaseYear === '') kitData.releaseYear = undefined;
+    if(kitData.grade === '') kitData.grade = undefined;
+    if(kitData.minPrice > kitData.maxPrice) kitData.minPrice = kitData.maxPrice;
+    if(kitData.maxPrice < kitData.minPrice) kitData.maxPrice = kitData.minPrice;
 
     return Models.Kit.KitModel.findByNameAndYear(kitData, (err, docs) => {
         if (err) {
@@ -42,11 +45,9 @@ const getKit = (req, res) => {
 const addKit = (req, res) => {
     const data = req.body;
 
-    /*
     console.log(req.file);
     console.log(req.body);
-    */
-   
+
     if (!data.name || !data.releaseYear || !data.msrp) {
       return res.status(400).json({ error: 'name, releaseYear and msrp are required' });
     }
@@ -56,7 +57,8 @@ const addKit = (req, res) => {
       name: data.name,
       releaseYear: data.releaseYear,
       msrp: data.msrp,
-      image: req.file.path,
+      grade: data.grade,
+      image: req.file ? req.file.path : "",
     };
 
     const newKit = new Models.Kit.KitModel(kitData);
@@ -66,24 +68,31 @@ const addKit = (req, res) => {
     kitPromise.catch((err) => {
         console.log(err);
         if (err.code === 11000) {
-          return res.status(400).json({ error: 'Kit already exists.' });
+          return res.status(400).json({ message: 'Kit already exists.' });
         }
     
-        return res.status(400).json({ error: 'An error occurred' });
+        return res.status(400).json({ error: 'An error occurred', message: 'Failed to add kit' });
     });
     
-    return kitPromise;
+    return res.json({ message: 'Kit added successfully' });
 };
 
 // DELETE request
 const deleteKit = (req, res) => {
-    return Models.Kit.KitModel.removeByID(req.query.id, (err, docs) => {
-        if (err) {
-          console.log(err);
-          return res.status(400).json({ error: 'An error occurred' });
-        }
-        return res.json({ kits: docs });
-    });
+  Models.AccountKit.AccountKitModel.removeByAccountAndKit(undefined, req.query.id, (err, docs) => {
+    if (err) {
+      console.log(err);
+      return res.status(400).json({ error: 'An error occurred' });
+    }
+  });
+
+  return Models.Kit.KitModel.removeByID(req.query.id, (err, docs) => {
+      if (err) {
+        console.log(err);
+        return res.status(400).json({ error: 'An error occurred' });
+      }
+      return res.json({ kits: docs });
+  });
 };
 
 module.exports = {
